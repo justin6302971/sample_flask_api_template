@@ -82,4 +82,5 @@ db.drop_all()
 5. [flask sqlalchemy basic usage -1](https://www.digitalocean.com/community/tutorials/how-to-use-flask-sqlalchemy-to-interact-with-databases-in-a-flask-application)
 6. [use sqlalchemy instead of flask-sqlalchemy](https://towardsdatascience.com/use-flask-and-sqlalchemy-not-flask-sqlalchemy-5a64fafe22a4)
 7. [build issues for flask in mac ](https://lifesaver.codes/answer/psycopg2-binary-fails-to-install-on-macos-big-sur-11-0-1-and-python-3-9-0-with-possible-workaround-1200)
+8. [flask tutorial video](https://www.youtube.com/watch?v=WFzRy8KVcrM&t=606s)
 
