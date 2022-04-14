@@ -1,0 +1,8 @@
+Flask==2.1.1
+python-dotenv==0.20.0
+Flask-SQLAlchemy==2.5.1 # should be replace with SQLAlchemy
+# SQLAlchemy==1.4.35
+psycopg2-binary==2.9.3 # for mac
+validators==0.18.2
+Flask-JWT-Extended==4.3.1
+# uvicorn==0.17.6
