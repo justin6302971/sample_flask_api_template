@@ -5,6 +5,7 @@
 * [ ] project structure
 * [ ] replace flask-SQLAlchemy with SQLAlchemy
 * [ ] use marshmallow for request params validation
+* [ ] better way for swagger docs setup
 
 
 ## Table of contents

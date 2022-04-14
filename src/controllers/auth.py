@@ -7,11 +7,13 @@ from src.db.database import User, db
 # from sqlalchemy import or_
 
 from flask_jwt_extended import get_jwt_identity, jwt_required, create_access_token, create_refresh_token
+from flasgger import  swag_from
 
 auth = Blueprint("auth", __name__, url_prefix="/api/v1/auth")
 
 
 @auth.post("/register")
+@swag_from('../docs/auth/register.yaml')
 def register():
     username = request.json.get('username', '')
     email = request.json.get('email', '')
@@ -58,6 +60,7 @@ def register():
 
 
 @auth.post("/login")
+@swag_from('../docs/auth/login.yaml')
 def login():
     email = request.json.get('email', '')
     password = request.json.get('password', '')

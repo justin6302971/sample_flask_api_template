@@ -5,6 +5,7 @@ from src.constants.http_status_codes import *
 from src.db.database import db, Bookmark
 import datetime
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from flasgger import  swag_from
 
 bookmarks = Blueprint("bookmarks", __name__, url_prefix="/api/v1/bookmarks")
 
@@ -153,6 +154,7 @@ def delete_bookmark(id):
 
 @bookmarks.get("/stats")
 @jwt_required()
+@swag_from("../docs/bookmarks/stats.yaml")
 def get_stats():
     current_user_id = get_jwt_identity()
     data = []
