@@ -1,3 +1,4 @@
+from hashlib import new
 from flask import Blueprint, request, jsonify
 import validators
 from src.constants.http_status_codes import *
@@ -20,7 +21,8 @@ def handle_bookmarks():
         if not validators.url(url):
             return jsonify({"error": "Enter a valid url"}), HTTP_400_BAD_REQUEST
 
-        bookmark = Bookmark.query.filter_by(url=url).first()
+        bookmark = Bookmark.query.filter_by(
+            url=url, user_id=current_user_id).first()
         if bookmark:
             return jsonify({"error": "Url already exists"}), HTTP_409_CONFLICT
 
@@ -143,7 +145,43 @@ def delete_bookmark(id):
     bookmark = Bookmark.query.filter_by(user_id=current_user_id, id=id).first()
     if not bookmark:
         return jsonify({"error": "Item not found"}), HTTP_404_NOT_FOUND
-   
+
     db.session.delete(bookmark)
     db.session.commit()
-    return jsonify({}),HTTP_204_NO_CONTENT
+    return jsonify({}), HTTP_204_NO_CONTENT
+
+
+@bookmarks.get("/stats")
+@jwt_required()
+def get_stats():
+    current_user_id = get_jwt_identity()
+    data = []
+    page = request.args.get('page', 1, type=int)
+    size = request.args.get('size', 10, type=int)
+
+    bookmarks = Bookmark.query.filter_by(user_id=current_user_id).order_by(
+        Bookmark.modified_at.desc()).paginate(page=page, per_page=size)
+
+    for bookmark in bookmarks.items:
+        new_link = {
+            'visits': bookmark.visits,
+            "url": bookmark.url,
+            'id': bookmark.id,
+            'short_url': bookmark.short_url
+        }
+        data.append(new_link)
+
+    meta = {
+        "page": bookmarks.page,
+        "pages": bookmarks.pages,
+        "total_count": bookmarks.total,
+        "prev_page": bookmarks.prev_num,
+        "next_page": bookmarks.next_num,
+        "has_next": bookmarks.has_next,
+        "has_prev": bookmarks.has_prev,
+    }
+
+    return jsonify({"isSuccess": True,
+                    "data": data,
+                    "meta": meta
+                    }), HTTP_200_OK
